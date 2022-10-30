@@ -30,11 +30,13 @@ async function ethers_reset(blockNumber) {
 async function main() {
 
     // ethers_reset();
+    const websocketProvider = alchemy.getWebsocketProvider();
 
     // Subscribe to new blocks, or newHeads
-    alchemy.ws.on("block", (blockNumber) => {
-        console.log("Latest block:", blockNumber);
-        ethers_reset(blockNumber);
+    websocketProvider.on({method: "alchemy_block"},
+        (blockNumber) => {
+            console.log("Latest block:", blockNumber);
+            ethers_reset(blockNumber);
     });
 
 }
